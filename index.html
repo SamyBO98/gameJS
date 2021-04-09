@@ -1,20 +1,27 @@
 <html>
-  <head></head>
-  <body>
+
+<head></head>
+
+<body>
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-      Crafty.init(500,350, document.getElementById('game'));
+        Crafty.init(1000, 1000, document.getElementById('game'));
 
         Crafty.e('Floor, 2D, Canvas, Color')
-        .attr({x: 0, y: 250, w: 250, h: 10})
-        .color('green');
+            .attr({ x: 0, y: 250, w: 250, h: 10 })
+            .color('black');
+
+        Crafty.e('Floor, 2D, Canvas, Color')
+            .attr({ x: 0, y: 350, w: 250, h: 10 })
+            .color('black');
 
         Crafty.e('2D, Canvas, Color, Twoway, Gravity')
-        .attr({x: 0, y: 0, w: 50, h: 50})
-        .color('#F00')
-        .twoway(200)
-        .gravity('Floor');
+            .attr({ x: 0, y: 0, w: 50, h: 50 })
+            .color('#F00')
+            .twoway(125)
+            .gravity('Floor');
     </script>
-  </body>
+</body>
+
 </html>
