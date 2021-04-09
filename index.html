@@ -6,7 +6,7 @@
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-        Crafty.init(1000, 1000, document.getElementById('game'));
+        Crafty.init(750, 750, document.getElementById('game'));
 
         Crafty.e('Floor, 2D, Canvas, Color')
             .attr({ x: 0, y: 250, w: 250, h: 10 })
@@ -20,6 +20,12 @@
             .attr({ x: 0, y: 0, w: 50, h: 50 })
             .color('#F00')
             .twoway(125)
+            .gravity('Floor');
+
+        Crafty.e('2D, Canvas, Color, Twoway, Gravity')
+            .attr({ x: 100, y: 0, w: 50, h: 50 })
+            .color("green")
+            .twoway(150)
             .gravity('Floor');
     </script>
 </body>
