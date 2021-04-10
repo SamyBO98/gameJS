@@ -13,20 +13,12 @@
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-        var screenWidth = 1500;
-        var screenHeight = 850;
+        var screenWidth = 400;
+        var screenHeight = 300;
         var hitCounter = 0;
 
         function random(x){
             return Math.floor(Math.random() * (x));
-        }
-
-        function create_bonus(){
-            rand_x = random(screenWidth)
-            rand_y = random(screenHeight)
-            Crafty.e('Bonus, 2D, Canvas, Color')
-                .attr({ x: rand_x, y: rand_y, w: 30, h: 30 })
-                .color('black');
         }
 
         function pause()
@@ -34,11 +26,21 @@
             Crafty.pause();
         }
         Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
-        var player1 = Crafty.e('2D,Player, Canvas, Color, Fourway')
+
+        rand_x = random(screenWidth)
+        rand_y = random(screenHeight)
+        var bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
+                .attr({ x: rand_y, y: rand_y, w: 30, h: 30 })
+                .color('black');
+        console.log(typeof bonus)        
+        var player1 = Crafty.e('2D,Player, Canvas, Color, Fourway, Collision')
             .attr({ x: 0, y: 0, w: 50, h: 50 })
             .color('#F00')
-            .fourway(125)
-        create_bonus()    
+            .fourway(200)
+            .onHit('Bonus', function() { // on collision with bonus
+                bonus.destroy()
+        });
+        
 
 
     </script>
