@@ -27,18 +27,26 @@
         }
         Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
 
-        rand_x = random(screenWidth)
-        rand_y = random(screenHeight)
+        //Creation du premier element
+        //Rand taille du plateau - taille de notre Bonus
+        rand_x = random(screenWidth-30)
+        rand_y = random(screenHeight-30)
         var bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
-                .attr({ x: rand_y, y: rand_y, w: 30, h: 30 })
+                .attr({ x: rand_x, y: rand_y, w: 30, h: 30 })
                 .color('black');
-        console.log(typeof bonus)        
+        //Creation de notre player
+        //Quand il touche un Bonus ce dernier est détruit et un autre est crée              
         var player1 = Crafty.e('2D,Player, Canvas, Color, Fourway, Collision')
             .attr({ x: 0, y: 0, w: 50, h: 50 })
             .color('#F00')
             .fourway(200)
             .onHit('Bonus', function() { // on collision with bonus
-                bonus.destroy()
+            rand_x2 = random(screenWidth-30)
+            rand_y2 = random(screenHeight-30)
+            bonus.destroy()
+            bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
+                .attr({ x: rand_x2, y: rand_y2, w: 30, h: 30 })
+                .color('black');
         });
         
 
