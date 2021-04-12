@@ -45,6 +45,15 @@
                     setTimeout(() => {
                         Crafty.pause()
                     }, 1000)
+
+                    var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
+                        .attr({x: 310, y: 350, w: 120, h: 40})
+                        .color('green')
+                        .bind('Click', function(MouseEvent){
+                            Crafty.stop(clearState = true);
+                            Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
+                        });
+
                 }
             }else{
                 return;
