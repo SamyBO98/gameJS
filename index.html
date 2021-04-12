@@ -1,11 +1,10 @@
 <html>
 
 <style>
-    #game
-    {
-        border:solid 1px black;
-        border-radius:8px;
-        margin:auto;
+    #game {
+        border: solid 1px black;
+        border-radius: 8px;
+        margin: auto;
         margin-top: 150px;
     }
 </style>
@@ -20,18 +19,179 @@
         var hitCounter = 0;
         var pointCounter = 0;
         var boolGameOver = false;
+        var bonus;
+        var player1;
+        var pointText;
+        var hitText;
+        var myEntity;
+        var gameOverText;
+        var rain;
 
-        function random(x){
+        init();
+
+        //Création de la pluie
+        Crafty.bind("EnterFrame", function () {
+                if (Crafty.frame() % 10 == 0)
+                    drop();
+            });
+
+        function init() {
+            Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
+
+            //Creation du premier element
+            //Rand taille du plateau - taille de notre Bonus
+            rand_x = random(screenWidth - 30)
+            rand_y = random(screenHeight - 30)
+            bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
+                .attr({ x: rand_x, y: rand_y, w: 15, h: 15 })
+                .color('blue');
+            //Creation de notre player
+            //Quand il touche un Bonus ce dernier est détruit et un autre est crée
+            //        var player1 = Crafty.e('2D,Player, Canvas, Color, Gravity, Fourway, Collision')
+            player1 = Crafty.e('2D, Player, Collision, Canvas, Color, Twoway, Gravity')
+                .attr({ x: 0, y: 0, w: 30, h: 30 })
+                .color('#F00')
+                .twoway(150)
+                .gravity('Floor')
+                .onHit('Bonus', function () { // on collision with bonus
+                    rand_x2 = random(screenWidth - 30)
+                    rand_y2 = random(screenHeight - 30)
+                    pointCounter++
+                    pointText.text("Score: " + pointCounter);
+                    bonus.destroy()
+                    bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
+                        .attr({ x: rand_x2, y: rand_y2, w: 15, h: 15 })
+                        .color('blue');
+                });
+
+
+            
+
+
+
+            //Creation du text des points
+            pointText = Crafty.e('2D, DOM, Text')
+                .attr({
+                    x: screenWidth - 150,
+                    y: 10
+                });
+            //Init du texte du score
+            pointText.text('Score:' + pointCounter);
+
+            //Css
+            pointText.textFont({
+                size: '30px',
+                weight: 'bold'
+            });
+
+            //Création des plateformes
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 0, y: screenHeight / 2, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 300, y: (screenHeight / 2) - 33, w: 120, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 900, y: screenHeight / 2, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 1200, y: screenHeight / 2, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 225, y: 350, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 225, y: 350, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 550, y: 350, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 489, y: 200, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 149, y: 123, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 497, y: 80, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 896, y: 321, w: 100, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 0, y: screenHeight - 10, w: 30, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 250, y: screenHeight - 10, w: 30, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 250, y: screenHeight - 10, w: 30, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 500, y: screenHeight - 10, w: 30, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 750, y: screenHeight - 10, w: 30, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 137, y: screenHeight - 65, w: 20, h: 8 })
+                .color('black');
+
+            Crafty.e('Floor, 2D, Canvas, Color')
+                .attr({ x: 645, y: screenHeight - 80, w: 15, h: 8 })
+                .color('black');
+
+            //Création du text hit
+            hitText = Crafty.e('2D, DOM, Text')
+                .attr({
+                    x: 0,
+                    y: 10
+                });
+
+            hitText.text('Hit:' + hitCounter);
+
+            hitText.textFont({
+                size: '30px',
+                weight: 'bold'
+            });
+
+            
+
+            setInterval(gameOver, 2000);
+        }
+
+        
+
+        function random(x) {
             return Math.floor(Math.random() * (x));
         }
 
-        function gameOver(){
-            if(!boolGameOver){
-                if(player1.x < -30 || player1.x > screenWidth + 30 || player1.y < 0 || player1.y > screenHeight ||hitCounter == 5){
+        function gameOver() {
+            //console.log(boolGameOver);
+            //console.log(player1.x);
+
+            if (!boolGameOver) {
+                if (player1.x < -30 || player1.x > screenWidth + 30 || player1.y < 0 || player1.y > screenHeight || hitCounter == 5) {
                     //Création du text game over
-                    var gameOverText = Crafty.e('2D, DOM, Text')
+                    gameOverText = Crafty.e('2D, DOM, Text')
                         .attr({
-                            x:  300,
+                            x: 300,
                             y: 240
                         });
 
@@ -46,184 +206,60 @@
                         Crafty.pause()
                     }, 1000)
 
-                    var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
-                        .attr({x: 310, y: 350, w: 120, h: 40})
+                    myEntity = Crafty.e('2D, Canvas, Color, Mouse')
+                        .attr({ x: 310, y: 350, w: 120, h: 40 })
                         .color('green')
-                        .bind('Click', function(MouseEvent){
-                            Crafty.stop(clearState = true);
-                            Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
+                        .bind('Click', function (MouseEvent) {
+                            Crafty.stop();
+                            reset();
+                            init();
+                            //Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
                         });
 
                 }
-            }else{
+            } else {
                 return;
             }
 
         }
 
-        Crafty.init(screenWidth, screenHeight, document.getElementById('game'));
 
-        //Creation du premier element
-        //Rand taille du plateau - taille de notre Bonus
-        rand_x = random(screenWidth-30)
-        rand_y = random(screenHeight-30)
-        var bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
-                .attr({ x: rand_x, y: rand_y, w: 15, h: 15 })
-                .color('blue');
-        //Creation de notre player
-        //Quand il touche un Bonus ce dernier est détruit et un autre est crée
-        //        var player1 = Crafty.e('2D,Player, Canvas, Color, Gravity, Fourway, Collision')
-        var player1 = Crafty.e('2D, Player, Collision, Canvas, Color, Twoway, Gravity')
-            .attr({ x: 0, y: 0, w: 30, h: 30 })
-            .color('#F00')
-            .twoway(150)
-            .gravity('Floor')
-            .onHit('Bonus', function() { // on collision with bonus
-            rand_x2 = random(screenWidth-30)
-            rand_y2 = random(screenHeight-30)
-            pointCounter ++
-            pointText.text("Score: " + pointCounter);
-            bonus.destroy()
-            bonus = Crafty.e('Bonus, 2D, Canvas, Color, Solid')
-                .attr({ x: rand_x2, y: rand_y2, w: 15, h: 15 })
-                .color('blue');
-        });
-
-
-        setInterval(gameOver, 2000);
-
-
-
-        //Creation du text des points
-        var pointText = Crafty.e('2D, DOM, Text')
-            .attr({
-                x: screenWidth - 150,
-                y: 10
-            });
-        //Init du texte du score
-        pointText.text('Score:' + pointCounter);
-
-        //Css
-        pointText.textFont({
-            size: '30px',
-            weight: 'bold'
-        });
-
-        //Création des plateformes
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 0, y: screenHeight/2, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 300, y: (screenHeight/2) - 33, w: 120, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 900, y: screenHeight/2, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 1200, y: screenHeight/2, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 225, y: 350, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 225, y: 350, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 550, y: 350, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 489, y: 200, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 149, y: 123, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 497, y: 80, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 896, y: 321, w: 100, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 0, y: screenHeight-10, w: 30, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 250, y: screenHeight-10, w: 30, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 250, y: screenHeight-10, w: 30, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 500, y: screenHeight-10, w: 30, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 750, y: screenHeight-10, w: 30, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 137, y: screenHeight-65, w: 20, h: 8})
-            .color('black');
-
-        Crafty.e('Floor, 2D, Canvas, Color')
-            .attr({x: 645, y: screenHeight-80, w: 15, h: 8})
-            .color('black');
-
-        //Création du text hit
-        var hitText = Crafty.e('2D, DOM, Text')
-            .attr({
-                x: 0,
-                y: 10
-            });
-
-        hitText.text('Hit:' + hitCounter);
-
-        hitText.textFont({
-            size: '30px',
-            weight: 'bold'
-        });
-
-        //Création de la pluie
-        Crafty.bind("EnterFrame", function(){
-            if (Crafty.frame() % 10 == 0)
-                drop();
-        });
-
-        function drop()
-        {
+        function drop() {
             var randomx = Math.floor((Math.random() * screenWidth) + 50);
-            Crafty.e('Drop, 2D, Canvas, Color, Solid, Gravity, Collision')
-                .attr({x: randomx, y: 0, w: 2, h: 15})
+            rain = Crafty.e('Drop, 2D, Canvas, Color, Solid, Gravity, Collision')
+                .attr({ x: randomx, y: 0, w: 2, h: 15 })
                 .color('#000080')
                 .gravity()
                 .checkHits('Player')
-                .bind("HitOn", function(){
+                .bind("HitOn", function () {
                     this.destroy();
                     hitCounter++;
                     hitText.text("Hit: " + hitCounter);
 
-                    if (hitCounter == 5)
-                    {
-                        gameOver()
+                    if (hitCounter == 5) {
+                        gameOver(player1)
                     }
                 })
-                .bind("EnterFrame", function() {
+                .bind("EnterFrame", function () {
                     if (this.y > screenHeight)
                         this.destroy();
                 });
+        }
+
+        function reset() {
+            screenWidth = 800;
+            screenHeight = 500;
+            hitCounter = 0;
+            pointCounter = 0;
+            boolGameOver = false;
+
+            bonus.destroy();
+            player1.destroy();
+            pointText.destroy();
+            hitText.destroy();
+            myEntity.destroy();
+            gameOverText.destroy();
+            rain.destroy();
         }
     </script>
 </body>
